@@ -1,0 +1,66 @@
+server:
+  host: 127.0.0.1
+  port: 8080
+branding:
+  app-name: 我的资讯屏
+  custom-footer: '<a href="http://127.0.0.1:8091">账号与额度配置</a> · 独立运行的中文资讯屏'
+document:
+  head: |
+    <meta http-equiv="refresh" content="300">
+    <style>body{font-family:system-ui,"Microsoft YaHei",sans-serif}.widget-content{font-size:16px}.quota-line{margin:8px 0}.quota-time{font-size:12px;opacity:.65}</style>
+pages:
+  - name: 我的资讯屏
+    slug: home
+    head-widgets:
+      - type: custom-api
+        title: 我的 AI 额度
+        cache: 30s
+        url: http://127.0.0.1:8091/api/metrics
+        template: |
+          <div style="display:flex;flex-wrap:wrap;gap:24px">
+          {{ range .JSON.Array "metrics" }}
+            <section style="flex:1;min-width:230px">
+              <h3 class="color-primary">{{ .String "name" }}</h3>
+              {{ range .Array "lines" }}<p class="quota-line">{{ .String "" }}</p>{{ end }}
+              {{ if ne (.String "updated") "" }}<p class="quota-time">采集时间：{{ .String "updated" }}</p>{{ end }}
+            </section>
+          {{ end }}
+          </div>
+          <p style="margin-top:16px"><a class="color-primary" href="http://127.0.0.1:8091">配置账号与凭据 →</a></p>
+    columns:
+      - size: full
+        widgets:
+          - type: rss
+            title: AI 与科技产品
+            cache: 15m
+            limit: 10
+            collapse-after: -1
+            feeds:
+              - url: https://www.qbitai.com/feed
+                title: 量子位
+                limit: 6
+              - url: https://www.ifanr.com/feed
+                title: 爱范儿
+                limit: 4
+      - size: full
+        widgets:
+          - type: rss
+            title: 工具与技术
+            cache: 30m
+            limit: 8
+            collapse-after: -1
+            feeds:
+              - url: https://sspai.com/feed
+                title: 少数派
+                limit: 4
+              - url: https://www.solidot.org/index.rss
+                title: Solidot 中文科技
+                limit: 4
+          - type: rss
+            title: 每周精选
+            cache: 6h
+            limit: 2
+            collapse-after: -1
+            feeds:
+              - url: https://www.ruanyifeng.com/blog/atom.xml
+                title: 阮一峰科技爱好者周刊
