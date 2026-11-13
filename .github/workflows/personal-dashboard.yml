@@ -1,0 +1,40 @@
+name: Personal dashboard
+on:
+  push:
+    branches: [feature/independent-chinese-dashboard]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: go test -race ./...
+      - run: go vet ./...
+      - run: bash scripts/package-personal.sh
+      - name: Test packaged Linux application
+        run: |
+          set -euo pipefail
+          cd dist/personal-dashboard-linux-amd64
+          ./glance --config personal/glance.yml config:validate
+          ./CodexBarCLI --version
+          bash start.sh > smoke.log 2>&1 &
+          pid=$!
+          trap 'kill -INT "$pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8091/api/settings > settings-check.json; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8080/ | grep '我的资讯屏'
+          curl -fsS http://127.0.0.1:8091/ | grep '账号与额度配置'
+          curl -fsS http://127.0.0.1:8091/api/metrics | grep metrics
+      - uses: actions/upload-artifact@v4
+        with:
+          name: personal-dashboard-linux-amd64
+          path: dist/personal-dashboard-linux-amd64.tar.gz
+          retention-days: 30

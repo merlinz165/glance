@@ -342,8 +342,8 @@ function setupLazyImages() {
 }
 
 function attachExpandToggleButton(collapsibleContainer) {
-    const showMoreText = "Show more";
-    const showLessText = "Show less";
+    const showMoreText = "展开更多";
+    const showLessText = "收起";
 
     let expanded = false;
     const button = document.createElement("button");
