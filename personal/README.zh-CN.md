@@ -23,7 +23,7 @@ powershell -ExecutionPolicy Bypass -File .\start-windows.ps1
 
 新闻开箱即用，无需任何凭据。配置页可随时保存 DeepSeek API Key 和 OpenAI **组织 Admin API Key**。密码框留空保留原值，输入 `-` 删除。凭据以本地明文 JSON 存放在 `personal-data/settings.json`（Linux 下权限 0600）；不要分享这个目录或把它提交 Git。在 Windows 挂载目录中由 Windows 文件权限保护。
 
-CodexBar CLI 已随包附带。Codex 和 Claude 需要在这台电脑、同一个 Linux/WSL 用户环境独立登录；账号必须与平常使用的账号相同。运行 `bash setup-accounts.sh` 查看官方安装入口及登录菜单。完成后运行 `./CodexBarCLI dashboard --identity redacted` 检查。若提供商没有启用，请按 CodexBar 官方 CLI 文档配置： https://github.com/steipete/CodexBar/blob/v0.84.0/docs/cli-configuration.md 。
+CodexBar CLI 已随包附带。Codex 和 Claude 需要在这台电脑、同一个 Linux/WSL 用户环境独立登录；账号必须与平常使用的账号相同。运行 `bash setup-accounts.sh`，先选 `0` 将官方客户端安装到本目录，再选 `1` / `2` 登录 Codex / Claude，选 `3` 检查额度。若提供商没有启用，请按 CodexBar 官方 CLI 文档配置： https://github.com/steipete/CodexBar/blob/v0.84.0/docs/cli-configuration.md 。
 
 - Codex：账号服务返回的额度窗口。不是普通 ChatGPT 聊天所有模型的剩余次数。
 - Claude：订阅用量。依赖该账号的登录有效性及平台接口。

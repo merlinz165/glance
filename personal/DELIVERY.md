@@ -7,3 +7,5 @@
 Linux 目标通过 GitHub Actions 构建并启动打包后的程序，验证配置、CodexBar 可执行文件、配置页和 HTTP API。Windows WSL 未在真实 Windows 设备验证。首次真实账号登录及余额核对由用户在目标电脑完成。
 
 OpenAI 真正充值余额暂为官方账单页面入口；不宣称费用等于余额。GitHub fork 默认关闭 Issues，因此不更改仓库设置，以 PR 承载交付记录。
+
+Linux 打包启动已通过 Actions：https://github.com/merlinz165/glance/actions/runs/43423737367 。

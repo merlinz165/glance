@@ -17,6 +17,12 @@ jobs:
       - run: go test -race ./...
       - run: go vet ./...
       - run: bash scripts/package-personal.sh
+      - name: Verify optional account clients
+        run: |
+          cd dist/personal-dashboard-linux-amd64
+          bash install-clients.sh
+          ./tools/codex --version
+          ./tools/claude --version
       - name: Test packaged Linux application
         run: |
           set -euo pipefail
